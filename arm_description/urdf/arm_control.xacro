@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot name="robotarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <ros2_control name="GazeboSystem" type="system">
+        <hardware>
+            <plugin>gz_ros2_control/GzSystem</plugin>
+        </hardware>
+        <joint name="joint_1">
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint_2">
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint_3">
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint_4">
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+
+</robot>

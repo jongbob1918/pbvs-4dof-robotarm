@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot name="robotarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <material name="grey">
+      <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+    <material name="blue">
+      <color rgba="0.1 0.1 0.8 1.0"/>
+    </material>
+    <material name="black">
+      <color rgba="0.1 0.1 0.1 1.0"/>
+    </material>
+
+    <xacro:property name="mesh_prefix" value="package://arm_description/meshes"/>
+    <xacro:property name="limit_lower" value="-1.54"/>
+    <xacro:property name="limit_upper" value="1.54"/>
+    <xacro:property name="limit_effort" value="100"/>
+    <xacro:property name="inertia_val" value="0.0001"/>
+
+    <xacro:macro name="arm_link_macro" params="link_name mass_val">
+        <link name="${link_name}">
+            <inertial>
+                <mass value="${mass_val}"/>
+                <inertia ixx="${inertia_val}" iyy="${inertia_val}" izz="${inertia_val}"/>
+            </inertial>
+            <visual>
+                <geometry><mesh filename="${mesh_prefix}/${link_name}.stl"/></geometry>
+            </visual>
+            <collision>
+                <geometry><mesh filename="${mesh_prefix}/${link_name}.stl"/></geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="arm_joint_macro" params="joint_name parent_link child_link xyz axis_xyz">
+        <joint name="${joint_name}" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${child_link}"/>
+            <origin xyz="${xyz}" rpy="0 0 0"/>
+            <axis xyz="${axis_xyz}"/>
+            <limit lower="${limit_lower}" upper="${limit_upper}" effort="${limit_effort}"/>
+        </joint>
+    </xacro:macro>
+
+    <link name='base_link'>
+        <inertial>
+            <mass value="0.5"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001"/>
+        </inertial>
+        <visual>
+            <geometry><mesh filename="${mesh_prefix}/base_link.stl"/></geometry>
+            <material name="grey"/>
+        </visual>
+        <collision>
+            <geometry><mesh filename="${mesh_prefix}/base_link.stl"/></geometry>
+        </collision>
+    </link>
+
+    <xacro:arm_link_macro  link_name="link_1" mass_val="0.2"/>
+    <xacro:arm_joint_macro joint_name="joint_1" parent_link="base_link" child_link="link_1" xyz="0 0 0.0814" axis_xyz="0 0 1"/>
+
+    <xacro:arm_link_macro  link_name="link_2" mass_val="0.2"/>
+    <xacro:arm_joint_macro joint_name="joint_2" parent_link="link_1" child_link="link_2" xyz="-0.02 0 0.015" axis_xyz="0 -1 0"/>
+
+    <xacro:arm_link_macro  link_name="link_3" mass_val="0.2"/>
+    <xacro:arm_joint_macro joint_name="joint_3" parent_link="link_2" child_link="link_3" xyz="-0.0021 0 0.1035" axis_xyz="0 1 0"/>
+
+    <xacro:arm_link_macro  link_name="link_4" mass_val="0.1"/>
+    <xacro:arm_joint_macro joint_name="joint_4" parent_link="link_3" child_link="link_4" xyz="-0.002 0 0.1275" axis_xyz="0 -1 0"/>
+
+
+    <link name="tool_tip">
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+      </inertial>
+    </link>
+
+    <joint name="joint_tool" type="fixed">
+      <parent link="link_4"/>
+      <child link="tool_tip"/>
+      <origin xyz="0.01 0 0.092" rpy="0 0.0 0"/>
+    </joint>
+
+</robot>
