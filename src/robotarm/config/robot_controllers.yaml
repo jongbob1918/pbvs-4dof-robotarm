@@ -1,0 +1,31 @@
+# config/robot_controllers.yaml
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # 컨트롤러 업데이트 주기 (Hz)
+
+    # 사용할 컨트롤러 목록을 여기에 선언합니다.
+    # joint_state_broadcaster는 로봇의 현재 관절 상태를 ROS 2 시스템에 알려주는 필수 컨트롤러입니다.
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # joint_trajectory_controller는 여러 관절의 움직임(궤적)을 제어하는 가장 일반적인 컨트롤러입니다.
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# joint_trajectory_controller의 상세 설정
+joint_trajectory_controller:
+  ros__parameters:
+    # 이 컨트롤러가 제어할 관절들의 목록입니다. URDF의 관절 이름과 일치해야 합니다.
+    joints:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      
+    # 사용할 명령/상태 인터페이스입니다. URDF의 <ros2_control> 태그에 정의된 것과 일치해야 합니다.
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity

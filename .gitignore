@@ -1,0 +1,36 @@
+# ROS2 워크스페이스 빌드 관련 폴더들
+build/
+log/
+install/
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ROS 2 workspace build artifacts
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/

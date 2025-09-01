@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<robot name="my_4dof_robot_sim">
+
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.1 0.1 0.8 1.0"/>
+  </material>
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/base_link.stl"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/base_link.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <link name="link_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_1.stl"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_1.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <link name="link_2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_2.stl"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_2.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <link name="link_3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_3.stl"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_3.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <link name="link_4">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_4.stl"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/link_4.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <link name="tool_tip">
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/camera.stl"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+       <origin xyz="0 0 0" rpy="0 0 0"/>
+       <geometry>
+        <mesh filename="package://robotarm/urdf/mesh/camera.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+        <mass value="0.05"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+
+  <link name="camera_optical_frame"/>
+
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 0.0814" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.54" upper="1.54" effort="1.08" velocity="7.48"/>
+  </joint>
+
+  <joint name="joint_2" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="-0.02 0 0.015" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.54" upper="1.54" effort="2.63" velocity="7.48"/>
+  </joint>
+
+  <joint name="joint_3" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <origin xyz="-0.0021 0.00 0.1035" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.54" upper="1.54" effort="1.08" velocity="7.48"/>
+  </joint>
+
+  <joint name="joint_4" type="revolute">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <origin xyz="-0.002 0 0.1275" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.54" upper="1.54" effort="1.08" velocity="7.48"/>
+  </joint>
+
+  <joint name="joint_tool" type="fixed">
+    <parent link="link_4"/>
+    <child link="tool_tip"/>
+    <origin xyz="0.01 0 0.092" rpy="0 0.0 0"/>
+  </joint>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="link_4"/>
+    <child link="camera_link"/>
+    <origin xyz="-0.0035 0 0.054" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_frame"/>
+    <origin xyz="0 0 0.01" rpy="1.5707 -1.5707 0"/>
+  </joint>
+
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+        <parameters>$(find-pkg-share robotarm)/config/robot_controllers.yaml</parameters>
+        <plugin>gz_ros2_control/GzSystem</plugin>
+    </hardware>
+    <joint name="joint_1">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_2">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_3">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_4">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <gazebo reference="camera_optical_frame">
+    <sensor type="camera" name="my_camera">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.0466</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>600</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <distortion>
+          <k1>-0.414921465</k1>
+          <k2>0.277976117</k2>
+          <p1>0.000362302582</p1>
+          <p2>-0.000173492775</p2>
+          <k3>-0.194112104</k3>
+          <center>0.5 0.5</center>
+        </distortion>
+      </camera>
+      
+    </sensor>
+  </gazebo>
+
+</robot>
