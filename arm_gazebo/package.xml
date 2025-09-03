@@ -5,9 +5,22 @@
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="jongbob1918@gmail.com">mac</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>launch_ros</depend>
+
+  
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>ros_gz_image</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>arm_description</exec_depend>
+
+  <exec_depend>ros2_control</exec_depend>
+  <exec_depend>ros2_controllers</exec_depend>
+  <exec_depend>ros2controlcli</exec_depend>
+  <exec_depend>gz-ros2-control</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

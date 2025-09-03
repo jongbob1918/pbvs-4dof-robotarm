@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<robot name="robotarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <ros2_control name="GazeboSystem" type="system">
         <hardware>
-            <plugin>gz_ros2_control/GzSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
         <joint name="joint_1">
             <command_interface name="position"/>

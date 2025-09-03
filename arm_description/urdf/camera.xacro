@@ -1,53 +1,55 @@
 <?xml version="1.0"?>
-<robot name="robotarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <link name='camera_link'>
-        <visual><geometry><mesh filename="package://arm_description/meshes/camera.stl"/></geometry></visual>
-        <collision><geometry><mesh filename="package://arm_description/meshes/camera.stl"/></geometry></collision>
-        <inertial>
-            <mass value="0.05"/>
-            <inertia ixx="1e-6" iyy="1e-6" izz="1e-6"/>
-        </inertial>
-    </link>
+  <link name='camera_link'>
+    <visual>
+      <geometry><mesh filename="package://arm_description/meshes/camera.stl"/></geometry><material name="black"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.02 0.04 0.03"/></geometry>
+    </collision>
 
-    <link name="camera_optical_frame"/>
+    <!-- inertial: 6성분 모두 명시 (비대각은 0으로 안전) -->
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia
+        ixx="1e-6" ixy="0.0" ixz="0.0"
+        iyy="1e-6" iyz="0.0"
+        izz="1e-6"/>
+    </inertial>
+  </link>
 
-    <joint name='camera_joint' type='fixed'>
-        <parent link='link_4'/>
-        <child link='camera_link'/>
-        <origin xyz="-0.0035 0 0.054" rpy="0 0 0"/>
-    </joint>
+  <link name="camera_optical_frame"/>
 
-    <joint name="camera_optical_joint" type="fixed">
-        <parent link="camera_link"/>
-        <child link="camera_optical_frame"/>
-        <origin xyz="0 0 0.01" rpy="${-pi/2} 0 ${-pi/2}"/>
-    </joint>
+  <joint name='camera_joint' type='fixed'>
+    <parent link='link_4'/>
+    <child link='camera_link'/>
+    <origin xyz="-0.0035 0 0.054" rpy="0 0 0"/>
+  </joint>
 
-    <gazebo reference="camera_optical_frame">
-        <sensor type="camera" name="my_camera">
-            <update_rate>30.0</update_rate>
-            <camera name="head">
-                <horizontal_fov>1.0466</horizontal_fov>
-                <image>
-                    <width>800</width>
-                    <height>600</height>
-                    <format>R8G8B8</format>
-                </image>
-                <clip>
-                    <near>0.02</near>
-                    <far>300</far>
-                </clip>
-                <distortion>
-                    <k1>-0.414921465</k1>
-                    <k2>0.277976117</k2>
-                    <p1>0.000362302582</p1>
-                    <p2>-0.000173492775</p2>
-                    <k3>-0.194112104</k3>
-                    <center>0.5 0.5</center>
-                </distortion>
-            </camera>
-            <plugin filename="libgz-sim-ros2-camera-system.so" name="gz::sim::systems::Ros2Camera"/>
-        </sensor>
-    </gazebo>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_frame"/>
+    <origin rpy="0 0 -1.57079632679" xyz="0 0 0.01"/>
+  </joint>
+
+  <gazebo reference="camera_optical_frame">
+    <sensor type="camera" name="my_camera">
+      <topic>/camera/image_raw</topic>
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.0466</horizontal_fov>
+        <image><width>800</width><height>600</height><format>R8G8B8</format></image>
+        <clip><near>0.02</near><far>300</far></clip>
+        <distortion>
+          <k1>-0.414921465</k1><k2>0.277976117</k2>
+          <p1>0.000362302582</p1><p2>-0.000173492775</p2>
+          <k3>-0.194112104</k3>
+          <center>0.5 0.5</center>
+        </distortion>
+      </camera>
+    </sensor>
+  </gazebo>
+
 </robot>

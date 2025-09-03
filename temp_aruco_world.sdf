@@ -1,0 +1,9 @@
+<sdf version="1.7">
+  <world name="default">
+    <include>
+      <uri>model://aruco_marker_0</uri>
+      <name>aruco_marker_instance</name>
+      <pose>0 0 0.1 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

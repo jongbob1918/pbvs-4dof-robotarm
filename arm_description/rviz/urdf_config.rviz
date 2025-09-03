@@ -69,25 +69,6 @@ Visualization Manager:
       Filter (blacklist): ""
       Filter (whitelist): ""
 
-    # 엔드이펙터 축(있는 경우 링크명 바꿔도 됨)
-    - Name: EE Axes
-      Class: rviz_default_plugins/Axes
-      Enabled: true
-      Reference Frame: tool_tip
-      Shaft Length: 0.05
-      Shaft Radius: 0.002
-      Head Length: 0.01
-      Head Radius: 0.004
-
-    # 카메라 축(카메라 xacro를 포함하는 경우)
-    - Name: Camera Axes
-      Class: rviz_default_plugins/Axes
-      Enabled: true
-      Reference Frame: camera_optical_frame
-      Shaft Length: 0.05
-      Shaft Radius: 0.002
-      Head Length: 0.01
-      Head Radius: 0.004
 
   Tools:
     - Class: rviz_default_plugins/Interact
