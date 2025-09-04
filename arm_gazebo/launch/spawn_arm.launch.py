@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable, TimerAction, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
@@ -38,7 +38,15 @@ def generate_launch_description():
         launch_arguments={'gz_args': '-g'}.items()
     )
 
-    # --- 3. 로봇 모델 준비 및 스폰 ---
+    # --- 3. 컨트롤러 매니저 노드 추가 ---
+    controller_manager_node = Node(
+        package='controller_manager',
+        executable='ros2_control_node',
+        parameters=[os.path.join(pkg_arm_gazebo, 'params', 'arm_controllers.yaml')],
+        output='screen',
+    )
+
+    # --- 4. 로봇 모델 준비 및 스폰 ---
     upload_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_arm_description, 'launch', 'upload_robot.launch.py')
@@ -46,20 +54,23 @@ def generate_launch_description():
         launch_arguments={'use_sim_time': 'true'}.items()
     )
 
-    # Spawn robot
-    create_entity = Node(
-        package='ros_gz_sim',
-        executable='create',
-        arguments=[
-            '-name', 'my_arm',
-            '-topic', 'robot_description',
-        ],
-        output='screen',
+    # 로봇 스폰을 약간 지연시켜 안정성 확보
+    create_entity = TimerAction(
+        period=3.0,
+        actions=[
+            Node(
+                package='ros_gz_sim',
+                executable='create',
+                arguments=[
+                    '-name', 'my_arm',
+                    '-topic', 'robot_description',
+                ],
+                output='screen',
+            )
+        ]
     )
 
-    
-
-    # --- 4. 브릿지 및 컨트롤러 활성화 ---
+    # --- 4. 브릿지 설정 ---
     bridge_params_file = os.path.join(pkg_arm_gazebo, 'params', 'arm_bridge.yaml')
     gz_bridge = Node(
         package='ros_gz_bridge',
@@ -68,35 +79,34 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Explicitly launch the controller manager
-    controller_manager_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[os.path.join(pkg_arm_gazebo, 'params', 'arm_controllers.yaml')],
-        output="screen",
+    # --- 5. 컨트롤러 스포너 (Gazebo 플러그인이 controller_manager를 관리) ---
+    # 컨트롤러 활성화를 위해 충분한 지연 시간 설정
+    joint_state_broadcaster_spawner = TimerAction(
+        period=5.0,
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                # YAML 파일에 정의된 컨트롤러 이름을 정확히 지정
+                arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"],
+            )
+        ]
     )
 
-    # Gazebo의 gz_ros2_control 플러그인이 컨트롤러를 로드하므로, 여기서는 활성화만 시켜줍니다.
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    joint_trajectory_controller_spawner = TimerAction(
+        period=7.0, # 약간의 시간차를 둠
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                # YAML 파일에 정의된 컨트롤러 이름을 정확히 지정
+                arguments=["joint_trajectory_controller", "--controller-manager", "controller_manager"],
+            )
+        ]
     )
 
-    joint_trajectory_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_trajectory_controller", "--controller-manager", "/controller_manager"],
-    )
-
-    # --- 5. 런치 파일 최종 구성 ---
     return LaunchDescription([
-        set_gz_resource_path,
-        gz_server,
-        gz_client,
-        upload_robot,
-        create_entity,
-        gz_bridge,
-        controller_manager_node, # Add controller_manager_node here
-
+        # ... (set_gz_resource_path, gz_server, gz_client, upload_robot, create_entity, gz_bridge)
+        joint_state_broadcaster_spawner,
+        joint_trajectory_controller_spawner,
     ])

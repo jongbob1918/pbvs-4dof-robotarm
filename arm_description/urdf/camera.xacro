@@ -3,7 +3,8 @@
 
   <link name='camera_link'>
     <visual>
-      <geometry><mesh filename="package://arm_description/meshes/camera.stl"/></geometry><material name="black"/>
+      <geometry><mesh filename="package://arm_description/meshes/camera.stl"/></geometry>
+      <material name="black"/>
     </visual>
     <collision>
       <geometry><box size="0.02 0.04 0.03"/></geometry>
@@ -36,15 +37,27 @@
 
   <gazebo reference="camera_optical_frame">
     <sensor type="camera" name="my_camera">
-      <topic>/camera/image_raw</topic>
+      <topic>camera/image_raw</topic>
       <update_rate>30.0</update_rate>
+      <visualize>true</visualize>
+      <always_on>1</always_on>
       <camera name="head">
+        <pose>0 0 0 0 0 0</pose>
         <horizontal_fov>1.0466</horizontal_fov>
-        <image><width>800</width><height>600</height><format>R8G8B8</format></image>
-        <clip><near>0.02</near><far>300</far></clip>
+        <image>
+          <width>800</width>
+          <height>600</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
         <distortion>
-          <k1>-0.414921465</k1><k2>0.277976117</k2>
-          <p1>0.000362302582</p1><p2>-0.000173492775</p2>
+          <k1>-0.414921465</k1>
+          <k2>0.277976117</k2>
+          <p1>0.000362302582</p1>
+          <p2>-0.000173492775</p2>
           <k3>-0.194112104</k3>
           <center>0.5 0.5</center>
         </distortion>

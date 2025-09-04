@@ -3,10 +3,10 @@
 
     <gazebo>
         <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-            <ros>
-                <namespace>/controller_manager</namespace>
-            </ros>
             <parameters>$(find arm_gazebo)/params/arm_controllers.yaml</parameters>
+            <ros>
+                <remapping>/controller_manager:=controller_manager</remapping>
+            </ros>
         </plugin>
     </gazebo>
 
