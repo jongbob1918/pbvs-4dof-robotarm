@@ -33,7 +33,8 @@ sudo apt install ros-jazzy-joint-state-publisher-gui
 #### 2. sdf 파일 실행
 ```bash
 # 폴더 이동
-cd src/gz_arm_test
+
+cd gz_arm_test
 
 # 실행
 gz sim robotarm_keyboard.sdf

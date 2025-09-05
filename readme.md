@@ -8,7 +8,8 @@
 
 ## 1단계
 - 3D 모델링 → URDF 작성 → SDF 변환 → `cmd_vel`로 간단 조작  
-### [체험 코드](src/gz_arm_test/readme.md)
+### [체험 코드](gz_arm_test/readme.md)
+<img src="asset/images/image.png" width="400" height="250">
 
 ---
 
